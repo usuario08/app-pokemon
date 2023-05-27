@@ -10,7 +10,7 @@ function ContenedorCards({ }) {
     useEffect(() => {
 
         const llamarApi = async () => {
-            const respuesta = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40');
+            const respuesta = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=25');
             const listaPokemones = respuesta.data.results;
 
             const detallePromesas = listaPokemones.map(elemento => axios.get(elemento.url));
