@@ -1,0 +1,8 @@
+.efecto {
+    transform: scale(var(--escala, 1));
+    transition: transform 0.25s;
+}
+
+.efecto:hover {
+    --escala: 1.1;
+}
