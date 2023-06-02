@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './style.css'
 
 function Card({ imagen, titulo, abilities }) {
@@ -16,7 +17,9 @@ function Card({ imagen, titulo, abilities }) {
                         }
                     </ol>
                 </div>
-                <a className='btn btn-primary'>Detalle</a>
+                <Link className='btn btn-primary' to={`/${titulo}`}>
+                    Detalle
+                </Link>
             </div>
         </div>
     )

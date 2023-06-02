@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import ContenedorCards from './componentes/ContenedorCards/ContenedorCards.jsx';
 import Crear from './componentes/Crear/Crear.jsx';
+import DetallePokemon from './componentes/DetallePokemon/DetallePokemon.jsx'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -20,11 +21,15 @@ const router = createBrowserRouter(
                 {
                     path: '/',
                     element: <ContenedorCards />,
+                }, 
+                {
+                    path: '/:nombre',
+                    element: <DetallePokemon />
                 },
                 {
                     path: '/crear',
                     element: <Crear />
-                }
+                },
             ],
         }
     ]
