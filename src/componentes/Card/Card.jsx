@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import './style.css'
 
-function Card({ imagen, titulo, abilities }) {
+function Card({ imagen, titulo, abilities, Tipo }) {
 
     return (
         <div className='card m-3 align-items-center shadow efecto' style={{ width: '12rem' }}>
@@ -12,14 +12,17 @@ function Card({ imagen, titulo, abilities }) {
                     <ol className='card-text'>
                         {
                             abilities.map((e, index) => (
-                                <li key={index}>{e.ability.name}</li>
+                                <li key={index}>{e}</li>
                             ))
                         }
                     </ol>
                 </div>
-                <Link className='btn btn-primary' to={`/${titulo}`}>
-                    Detalle
-                </Link>
+                {
+                    Tipo !== 'api' &&
+                    <Link className='btn btn-primary' to={`/${titulo}`}>
+                        Detalle
+                    </Link>
+                }
             </div>
         </div>
     )

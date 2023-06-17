@@ -6,7 +6,7 @@ import Card from '../Card/Card'
 function ContenedorCards({ }) {
     const [pokemones, setPokemones] = useState([]);
     const [pokemonesAux, setPokemonesAux] = useState([]);
-    
+
     useEffect(() => {
 
         const llamarApi = async () => {
@@ -17,9 +17,21 @@ function ContenedorCards({ }) {
 
             const rptaDetallePromesas = await Promise.all(detallePromesas);
             const detalle = rptaDetallePromesas.map(elemento => elemento.data);
+            console.log(detalle);
 
-            setPokemones(detalle);
-            setPokemonesAux(detalle);
+            const newDetalle = detalle.map(elemento => {
+                return {
+                    Nombre: elemento.name,
+                    Imagen: elemento.sprites.other.dream_world.front_default,
+                    Habilidades: elemento.abilities.map(e => e.ability.name),
+                    Tipo: 'pokeapi'
+                }
+            })
+
+            const pokemonesDB = await axios.get('http://localhost:3000/pokemon');
+
+            setPokemones(pokemonesDB.data.map(e => ({ ...e, Tipo: 'api' })).concat(newDetalle));
+            setPokemonesAux(pokemonesDB.data.map(e => ({ ...e, Tipo: 'api' })).concat(newDetalle));
         }
         llamarApi();
     }, [])
@@ -35,9 +47,10 @@ function ContenedorCards({ }) {
                 pokemonesAux.map((e, i) => (
                     <Card
                         key={i}
-                        imagen={e.sprites.other.dream_world.front_default}
-                        titulo={e.name}
-                        abilities={e.abilities}
+                        imagen={e.Imagen}
+                        titulo={e.Nombre}
+                        abilities={e.Habilidades}
+                        Tipo={e.Tipo}
                     />
                 ))
             }

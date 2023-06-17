@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import './style.css';
+import axios from 'axios';
+import Toasts from '../Toasts/Toasts';
 
 function Crear({ }) {
 
     const [habilidades, setHabilidades] = useState([]);
     const [habilidad, setHabilidad] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [imagen, setImagen] = useState('');
+    const [showToast, setShowToast] = useState({ Titulo: '', Mensaje: '' });
 
     const agregarHabilidad = () => {
         if (habilidades.some(e => e === habilidad)) return
@@ -12,12 +17,32 @@ function Crear({ }) {
         setHabilidad('');
     }
 
-    const eliminarHabilidad = (elemento) => { 
+    const eliminarHabilidad = (elemento) => {
         setHabilidades([...[], ...habilidades.filter(e => e !== elemento)]);
     }
 
+    const OnClick = async () => {
+        try {
+            if (nombre === '' || imagen === '' || !habilidades.length) throw Error(`⚠ Alguno de los campos está incompleto.`);
+            const pokemon = {
+                Nombre: nombre,
+                Imagen: imagen,
+                Habilidades: habilidades,
+            }
+            const response = await axios.post('http://localhost:3000/pokemon', pokemon);
+            if (response.status === 201) {
+                setShowToast({ Estado: true, Mensaje: 'Se grabó correctamente' });
+            }
+            setImagen('');
+            setNombre('');
+            setHabilidades([]);
+        } catch (error) {
+            setShowToast({ Estado: false, Mensaje: error.message });
+        }
+    }
+
     return (
-        <div className='row'>
+        <div className='row' style={{ position: 'relative' }}>
             <div className='col-7 d-flex justify-content-center'>
                 <img src='https://i.pinimg.com/originals/34/e1/91/34e1910bb25227668afbb13d4dbb7dab.png' />
             </div>
@@ -28,12 +53,16 @@ function Crear({ }) {
                     type='text'
                     placeholder='Nombre'
                     aria-label='default input example'
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
                 ></input>
                 <input
                     className='form-control mb-4'
                     type='text'
                     placeholder='Url de imagen'
                     aria-label='default input example'
+                    value={imagen}
+                    onChange={(e) => setImagen(e.target.value)}
                 ></input>
                 <div className='row w-100 mb-4' style={{ margin: '0px !important' }}>
                     <div className='col-9 ps-0'>
@@ -42,6 +71,7 @@ function Crear({ }) {
                             type='text'
                             placeholder='Habilidad'
                             aria-label='default input habilidad'
+                            value={habilidad}
                             onChange={(e) => setHabilidad(e.target.value)}
                         ></input>
                     </div>
@@ -60,7 +90,7 @@ function Crear({ }) {
                                     </div>
                                     <i
                                         onClick={() => eliminarHabilidad(e)}
-                                        class="bi bi-x-circle-fill"
+                                        className="bi bi-x-circle-fill"
                                         style={{
                                             color: 'red',
                                             cursor: 'pointer',
@@ -72,8 +102,9 @@ function Crear({ }) {
                         ))
                     }
                 </div>
-                <button type="button" className="btn btn-primary w-100">Guardar</button>
+                <button type="button" onClick={OnClick} className="btn btn-primary w-100">Guardar</button>
             </div>
+            <Toasts ShowToast={showToast} />
         </div>
     )
 }

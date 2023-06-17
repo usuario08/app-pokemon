@@ -20,11 +20,11 @@ function DetallePokemon({ }) {
 
     return (
         <div className='row' style={{ minHeight: '50vh' }}>
-            <div className='col-6 d-flex flex-column'>
+            <div className='col-6 d-flex flex-column p-5'>
                 <div className='d-flex justify-content-center'>
-                    <h3>{pokemon?.name.toUpperCase()}</h3>
+                    <h3 className='text-info'>{pokemon?.name.toUpperCase()}</h3>
                 </div>
-                <h5>Hablidades:</h5>
+                <h5 className='text-success'>Hablidades:</h5>
                 <ul>
                     {
                         pokemon?.abilities.map((e, i) => (
@@ -32,7 +32,7 @@ function DetallePokemon({ }) {
                         ))
                     }
                 </ul>
-                <h5>Estadisticas:</h5>
+                <h5 className='text-success'>Estadisticas:</h5>
                 <ul>
                     {
                         pokemon?.stats.map((e, i) => (
@@ -41,12 +41,11 @@ function DetallePokemon({ }) {
                     }
                 </ul>
             </div>
-            <div className='col-6'>
-                <img src={pokemon?.sprites.other.dream_world.front_default}/>
+            <div className='col-6 d-flex align-items-center justify-content-center p-5'>
+                <img style={{ width: '14rem' }} src={pokemon?.sprites.other.dream_world.front_default} />
             </div>
         </div>
     )
-
 }
 
 export default DetallePokemon;
